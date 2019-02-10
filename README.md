@@ -17,13 +17,12 @@ The configuration setting `doc_inst` specifies where PDFs will be copied to.
 If it's not set, they will be copied to the branch root of the buildfarm
 animal.
 
-This recipe is for a Centos/7 box, but would be easily adaptable to, say,
-Debian/stretch.
+This recipe works for Debian/stretch, Centos/7 and (probably) Ubuntu.
 
 To test, in the machine where this is installed, do:
 
 ```
-su - docbuilder
+sudo su - docbuilder
 ```
 
 and then
@@ -31,5 +30,3 @@ and then
 ```
 cd bf && ./run_build.pl --test
 ```
-
-

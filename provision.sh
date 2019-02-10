@@ -1,5 +1,12 @@
 
-yum install -y wget
+case `uname -a` in
+	*Debian*|*Ubuntu*)
+		DEBIAN_FRONTEND=noninteractive apt-get install -y wget
+		;;
+	*el7*)
+		yum install -y wget
+		;;
+esac
 
 useradd -m -c "postgresql doc builder" docbuilder
 
@@ -35,20 +42,41 @@ cat > /tmp/bfscript <<-'EOF'
 
 su docbuilder /tmp/bfscript
 
-yum install -y \
-    git \
-    bison \
-    flex \
-    gcc \
-    ccache \
-    perl \
-	perl-Digest-SHA \
-    perl-libwww-perl \
-    perl-LWP-Protocol-https \
-    zlib-devel \
-    readline-devel \
-	fop \
-	pandoc
+case `uname -a` in
+	*Debian*|*Ubuntu*)
+		DEBIAN_FRONTEND=noninteractive apt-get install -y\
+					   git \
+					   bison \
+					   flex \
+					   gcc \
+					   ccache \
+					   perl \
+					   libwww-perl \
+					   liblwp-protocol-https-perl \
+					   zlib1g-dev \
+					   libreadline-dev \
+					   xsltproc \
+					   libxml2-utils \
+					   fop \
+					   pandoc
+		;;
+	*el7*)
+		yum install -y \
+			git \
+			bison \
+			flex \
+			gcc \
+			ccache \
+			perl \
+			perl-Digest-SHA \
+			perl-libwww-perl \
+			perl-LWP-Protocol-https \
+			zlib-devel \
+			readline-devel \
+			fop \
+			pandoc
+		;;
+esac
 
 # run once just to get the repo set up.
 su docbuilder sh -c "cd bf && ./run_build.pl --test --only-steps=configure"
